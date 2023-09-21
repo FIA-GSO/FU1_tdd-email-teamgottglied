@@ -11,7 +11,10 @@ def is_valid_email_prefix(prefix: str) -> bool:
 
     is_valid = True
     for character in prefix:
-        is_valid = is_valid and (character.isalpha() or character.isalnum() or re.match(allowed_special_chars, prefix))
+        is_valid = (is_valid
+                    and (character.isalpha()
+                         or character.isalnum()
+                         or re.match(allowed_special_chars, prefix)))
 
     return is_valid
 
@@ -50,4 +53,5 @@ def is_valid_email(email: str) -> bool:
     return True
 
 
-print(is_valid_email("hallo@world"))
+def is_valid_password(password: str) -> bool:
+    return False
