@@ -1,5 +1,6 @@
 import pytest
 from input_validation import is_valid_email
+from input_validation import is_valid_password
 
 
 @pytest.mark.parametrize("email", [
@@ -44,15 +45,11 @@ def test_is_valid_email__ungueltige_Adressen(email):
                              , "6v2§!faD"
                          ])
 def test_is_valid_password__gueltige_Passwoerter(password):
-    # arrange
-    password_to_be_tested = password
-
     # act
-    response = is_valid_email(password_to_be_tested)
+    response = is_valid_password(password)
 
     # assert
     assert response is True
-
 
 
 @pytest.mark.parametrize("password",
@@ -65,7 +62,7 @@ def test_is_valid_password__ungueltige_Passwoerter(password):
     password_to_be_tested = password
 
     # act
-    response = is_valid_email(password_to_be_tested)
+    response = is_valid_password(password_to_be_tested)
 
     # assert
     assert response is False

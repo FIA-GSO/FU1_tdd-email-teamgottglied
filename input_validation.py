@@ -2,10 +2,11 @@ import re  # regular Expressions
 from re import Match
 from typing import Optional
 
+allowed_special_chars = [".", "!", "#", "$", "%", "&", "\\", "'", "*", "+", "-", "/", "=", "?", "^", "_", "`", "{",
+                         "|", "}"]
+
 
 def is_valid_email_prefix(prefix: str) -> bool:
-    allowed_special_chars = r'^\.!#$%&\'*+-/=\?^_`{|}~$'
-
     if prefix.startswith('.'):
         return False
 
@@ -14,7 +15,7 @@ def is_valid_email_prefix(prefix: str) -> bool:
         is_valid = (is_valid
                     and (character.isalpha()
                          or character.isalnum()
-                         or re.match(allowed_special_chars, prefix)))
+                         or character in allowed_special_chars))
 
     return is_valid
 
@@ -53,5 +54,61 @@ def is_valid_email(email: str) -> bool:
     return True
 
 
+def valid_short_password(password: str):
+    has_special = False
+    has_number = False
+    has_upper = False
+    has_lower = False
+
+    for character in password:
+        if character in allowed_special_chars:
+            has_special = True
+        if character.islower():
+            has_lower = True
+        if character.isupper():
+            has_upper = True
+        if character.isnumeric():
+            has_number = True
+
+    return has_special and has_upper and has_lower and has_number
+
+
+def valid_long_password(password: str):
+    has_special = False
+    has_number = False
+    has_upper = False
+    has_lower = False
+
+    for character in password:
+        if character in allowed_special_chars:
+            has_special = True
+        if character.islower():
+            has_lower = True
+        if character.isupper():
+            has_upper = True
+        if character.isnumeric():
+            has_number = True
+
+    return (
+            (has_special and has_upper)
+            or (has_special and has_number)
+            or (has_special and has_lower)
+
+            or (has_number and has_upper)
+            or (has_number and has_lower)
+
+            or (has_lower and has_lower)
+            )
+
+
 def is_valid_password(password: str) -> bool:
+    if type(password) != str:
+        raise ValueError
+
+    if len(password) >= 25 and (valid_short_password(password) or valid_long_password(password)):
+        return True
+
+    if len(password) >= 8 and valid_short_password(password):
+        return True
+
     return False
