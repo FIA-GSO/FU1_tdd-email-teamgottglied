@@ -2,7 +2,6 @@ import re  # regular Expressions
 from re import Match
 from typing import Optional
 
-
 def is_valid_email_prefix(prefix: str) -> bool:
     allowed_special_chars = r'^\.!#$%&\'*+-/=\?^_`{|}~$'
 
